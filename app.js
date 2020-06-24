@@ -5,11 +5,9 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose')
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
 const roomsRouter = require('./routes/rooms');
 const loginRouter = require('./routes/login');
 const registrationRouter = require('./routes/registration');
-
 const app = express();
 
 mongoose.connect('mongodb://localhost:27017/Partyroom', {
