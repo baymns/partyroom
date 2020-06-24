@@ -7,6 +7,8 @@ const mongoose = require('mongoose')
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const roomsRouter = require('./routes/rooms');
+const loginRouter = require('./routes/login');
+const registrationRouter = require('./routes/registration');
 
 const app = express();
 
@@ -14,7 +16,6 @@ mongoose.connect('mongodb://localhost:27017/Partyroom', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,10 +28,20 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/rooms', roomsRouter);
 app.use('/login', loginRouter);
 app.use('/registration', registrationRouter);
+
+app.use((req,res,next) => {
+  if(req.session.user) {
+    res.locals.login = req.session.user.login
+    res.locals.id = req.session.user._id
+    return next()
+  } else {
+    res.redirect('/login')
+  }
+})
+
+app.use('/rooms', roomsRouter);
 
 
 // catch 404 and forward to error handler

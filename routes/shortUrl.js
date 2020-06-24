@@ -1,11 +1,12 @@
 const router = require(".");
+const Room = require('../models/room');
 
-router.post('/room/:id', async (req, res, next) => {
+router.post('/:id', async (req, res, next) => {
   const url = req.params.id;
   const randomLink = shortUrlGenerator();
-  const shortUrl = '/room/' + shortUrl;
+  const shortUrl = '/room/' + randomLink;
 
-  await Room.findOneandUpdate({ id: url }, { $set: { shortUrl } });
+  await Room.findOneandUpdate({ id }, { $set: { shortUrl } });
   await Room.save();
 
 });
@@ -24,13 +25,6 @@ const shortUrlGenerator = () => {
 
 router.get('/:shorturl', async (req, res, next) => {
   const room = await Room.findOne({ shortUrl: req.params.shortUrl });
-  res.redirect('/room//' + room._id);
+  res.redirect('/rooms/' + room._id);
 });
 
-// const roomSchema = new Schema({
-//   title: { type: String, required: true },
-//   createdAt: { type: Date, default: Date.now },
-//   shortUrl: String,
-//   users: [{ type: Schema.Types.ObjectId, ref: 'user' }],
-//   author: { type: Schema.Types.ObjectId, ref: 'user' },
-// });
