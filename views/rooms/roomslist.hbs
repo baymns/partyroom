@@ -1,0 +1,14 @@
+<div id="rooms-container">
+  {{#if rooms}}
+  {{#each rooms}}
+
+  <div class="room">
+    <h3>Тема: {{this.title}}</h3>
+    <p>Время создания {{this.createdAt}}</p>
+  </div>
+
+  {{/each}}
+  {{else}}
+
+  {{/if}}
+</div>
