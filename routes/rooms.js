@@ -18,6 +18,8 @@ const shortUrlMake = () => {
 router.get('/', async (req, res) => {
   const rooms = await Room.find();
 
+  rooms.map(room => room.createdAt = `${new Date(room.createdAt).getHours()}:${new Date(room.createdAt).getMinutes()} 
+  ${new Date(room.createdAt).getDate()}.${new Date(room.createdAt).getMonth()}.${new Date(room.createdAt).getFullYear()}`)
   res.render('rooms/roomslist', { rooms });
 })
 
@@ -25,7 +27,7 @@ router.get('/create', (req, res) => {
   res.render('rooms/roomform');
 });
 
-router.post('/', async (req, res) => {
+router.post('/create', async (req, res) => {
   try {
     const { title } = req.body;
     const room = new Room({
@@ -51,6 +53,19 @@ router.get('/createlink/:id', async (req, res) => {
   res.redirect(`/rooms/${room.id}`);
 });
 
+// Ручка для удаления комнаты из общего списка (/rooms)
+router.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params
+    console.log(id);
+
+    await Room.findByIdAndDelete({ _id: id })
+    res.status(200).end()
+  } catch (error) {
+    res.status(400).end()
+  }
+})
+
 // ручка для показа содержимого комнаты (вишлисты комнаты)
 router.get('/show', async (req, res) => {
   res.render('rooms/room', { shortUrl: Room.shortUrl });
@@ -60,10 +75,6 @@ router.get('/show', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    const { id } = req.params.id;
-    if (link) {
-      res.redirect(`/rooms/${id}`);
-    }
     res.render('rooms/room');
   } catch (error) {
     res.redirect('/rooms');
