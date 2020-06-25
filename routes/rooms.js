@@ -27,7 +27,7 @@ router.post('/', async (req, res) => {
   try {
     const { title } = req.body
     const room = new Room({
-      title
+      title, author: req.session.user._id
     });
     await room.save();
     res.redirect(`/rooms/${room._id}`);
