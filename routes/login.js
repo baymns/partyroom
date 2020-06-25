@@ -8,50 +8,52 @@ router.get('/', (req, res) => {
   res.render('regist_login/login');
 });
 
-router.post('/login', async (req, res) => {
+router.post('/', async (req, res) => {
   try {
-    const { login, password } = req.body;
-    const user = await User.findOne({ login, password })
+    console.log('!!!!!!!!!', req.body)
+    const { email, password } = req.body;
+    const user = await User.findOne({ email, password })
+    console.log('>>>>>>>>>>>>>>>', user)
     if (user) {
       delete user.password
       req.session.user = user;
       return res.redirect('/rooms')
     }
-    else {
-      throw new Error()
-    }
-    } 
-    catch (error) {
-      console.log(error)
-      res.render('regist_login/login', { error })
-
-    }
-    const { login, password } = req.body;
-    const user = await User.find({ login })
-    if (user.login === login && user.password === password) {
-      delete user.password
-      req.session.user = user;
-
-      return res.redirect('/rooms')
-    }
-    res.redirect('/')
-  })
+    res.redirect('/registration')
+  }
+  catch (error) {
+    console.log(error)
+    res.redirect('/login',)
+    
+  }
+})
 
 
+// const { email, password } = req.body;
+// const user = await User.find({ email })
+// if (user.email === login && user.password === password) {
+  //   delete user.password
+//   req.session.user = user;
+//   return res.redirect('/rooms')
+// }
+// res.redirect('/')
 
 // router.post('/', async (req, res) => {
-//   const { email, password } = req.body;
-//   console.log(email);
-//   const user = await User.findOne({ email })
-//   if (user.email === email && user.password === password) {
-//     delete user.password
-//     req.session.user = user;
-
-//     return res.redirect('/entries')
-//   }
-//   res.redirect('/login')
-// })
-
-
-
+  //   const { email, password } = req.body;
+  //   console.log(email);
+  //   const user = await User.findOne({ email })
+  //   if (user.email === email && user.password === password) {
+    //     delete user.password
+    //     req.session.user = user;
+    
+    //     return res.redirect('/entries')
+    //   }
+    //   res.redirect('/login')
+    // })
+    
+    
+    
+    // else {
+    //   throw new Error()
+    // }
 module.exports = router;
