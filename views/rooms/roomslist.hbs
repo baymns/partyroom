@@ -1,14 +1,23 @@
 <div id="rooms-container">
-  {{#if rooms}}
-  {{#each rooms}}
+  <div id="rooms-list">
+    <div class="add-button">
+      <a href="/rooms/create" id="add-btn-link"><button id="add-main-btn">+</button></a>
+    </div>
 
-  <div class="room">
-    <h3>Тема: {{this.title}}</h3>
-    <p>Время создания {{this.createdAt}}</p>
+    {{#if rooms}}
+    {{#each rooms}}
+    <div class="room">
+      <h4>Тема: {{this.title}}</h4>
+      <p>Время создания {{this.createdAt}}</p>
+      <p>Количество участников: {{this.users.length}}</p>
+      <a href="/rooms/{{this._id}}">Войти в комнату</a>
+      <a href="/rooms/{{this._id}}" id={{this._id}} class="delete-room" >Удалить комнату</a>
+
+    </div>
+
+    {{/each}}
+    {{else}}
+    <h3>Здесь будет список созданных вами комнат</h3>
+    {{/if}}
   </div>
-
-  {{/each}}
-  {{else}}
-  <h3>Здесь будет список созданных вами комнат</h3>
-  {{/if}}
 </div>
