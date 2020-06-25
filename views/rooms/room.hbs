@@ -2,14 +2,29 @@
 <div class='container wishlist'>
   <div class="card mt-4" style="width: auto;">
     <div class="card-body">
-      <h5 class="card-title text-dark">Название комнаты </h5>
+      {{#if roomtitle}}
+      <h5 class="card-title text-dark">{{ roomtitle }}</h5>
+      {{else}}
+      <h5 class="card-title text-dark">Название комнаты</h5>
+      {{/if}}
       <hr>
+      {{#if products}}
+      {{#foreach products}}
       <div class="container border border-primary d-flex align-items-center text-dark bg-light">
-        <div class="flex-grow-1 bd-highlight">Колбаса</div>
-        <span class="p-2 mx-2 bd-highlight">100р</span>
+        <div class="flex-grow-1 bd-highlight">{{this.name}}</div>
+        <span class="p-2 mx-2 bd-highlight">{{this.price}}р.</span>
         <input class="checkbox" type="checkbox" aria-label="Checkbox for following text input">
       </div>
+      {{/foreach}}
+      {{else}}
+      <div class="container border border-primary d-flex align-items-center text-dark bg-light">
+        <div class="flex-grow-1 bd-highlight">Название</div>
+        <span class="p-2 mx-2 bd-highlight">100р.</span>
+        <input class="checkbox" type="checkbox" aria-label="Checkbox for following text input">
+      </div>
+      {{/if}}
       <button type="button" class="btn btn-success mt-2 add-product">Добавить в лист</button>
+      <a href="{{#if roomid}} {{roomid}} {{/if}}" type="button" class="btn btn-primary mt-2 reload">Обновить</a>
     </div>
   </div>
 </div>
@@ -33,7 +48,7 @@
       </div>
       <div class="form-group form-check">
         <input type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label text-dark" for="exampleCheck1">Куплю сам</label>
+        <label class="form-check-label text-dark" for="exampleCheck1">Уже купил</label>
       </div>
       <button type="submit" class="btn btn-primary add-row-button">Добавить в лист</button>
       </form>
