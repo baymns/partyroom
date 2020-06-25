@@ -6,6 +6,8 @@ const logger = require('morgan');
 const mongoose = require('mongoose')
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
+const { v4: uuidv4 } = require('uuid');
+
 
 
 const indexRouter = require('./routes/index');
@@ -13,6 +15,8 @@ const roomsRouter = require('./routes/rooms');
 const loginRouter = require('./routes/login');
 const registrationRouter = require('./routes/registration');
 const logoutRouter = require('./routes/logout');
+const wishlistRouter = require('./routes/wishList')
+
 
 
 const app = express();
@@ -50,6 +54,7 @@ app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/registration', registrationRouter);
 
+
 app.use((req,res,next) => {
   if(req.session.user) {
     res.locals.name = req.session.user.name
@@ -62,6 +67,7 @@ app.use((req,res,next) => {
 
 app.use('/rooms', roomsRouter);
 app.use('/logout', logoutRouter);
+app.use('/wishlist', wishlistRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
