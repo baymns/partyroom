@@ -1,5 +1,6 @@
 const router = require('express').Router()
-const Room = require('../models/room.js')
+const Room = require('../models/room.js');
+const Wishlist = require('../models/wishlist');
 
 const shortUrlMake = () => {
   const arr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
@@ -42,8 +43,8 @@ router.post('/', async (req, res) => {
 router.get('/createlink/:id', async (req, res) => {
   const { id } = req.params;
 
-  const randomLink = shortUrlMake();
-  const shortUrl = '/rooms/shortlink/' + randomLink;
+  const shortUrl = shortUrlMake();
+  // const shortUrl = '/rooms/shortlink/' + randomLink;
 
 
   const room = await Room.findOneAndUpdate({ _id: id }, { $set: { shortUrl } }, { new: true });
@@ -63,13 +64,6 @@ router.delete('/:id', async (req, res) => {
   }
 })
 
-// ручка для показа содержимого комнаты (вишлисты комнаты)
-router.get('/show', async (req, res) => {
-  res.render('rooms/room', { shortUrl: Room.shortUrl });
-});
-
-
-
 router.get('/:id', async (req, res) => {
   try {
     res.render('rooms/room');
@@ -79,16 +73,31 @@ router.get('/:id', async (req, res) => {
 
 })
 
+// ручка показа формы всех вишлистов и добавления
+router.get('/:id/wishlist', async (req, res) => {
+  res.render('rooms/room');
+})
+
+// ручка создания нового вишлиста
+router.post('/wishlists', async (req, res) => {
+  const wishListName = req.body;
+  res.json( { "result": "ok" } );
+})
+
+// ручка показа конкретного вишлиста комнаты
+router.get('/:id/wishlist/:wid', async (req, res) => {
+  const { wid } = req.params;
+  const result = await Wishlist.findOne({ id: wid });
+  res.render('rooms/wishlist');
+});
 
 // Нужно уточнить куда ведет ручка!!!
 router.get('/shortlink/:id', async (req, res) => {
-  const shortLink = req.params.id;
-  console.log(shortLink);
-  const shortUrl = '/rooms/shortlink/' + shortLink;
+  const shortUrl = req.params.id;
+  // console.log(shortLink);
+  // const shortUrl = '/rooms/shortlink/' + shortLink;
   const room = await Room.findOne({ shortUrl });
   // console.log(room._id);
-
-  req.session.link = room.id;
   res.redirect('/rooms/' + room.id);
 });
 

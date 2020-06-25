@@ -6,7 +6,7 @@ document.body.addEventListener('click', async event => {
     const template = Handlebars.compile(res);
     const form = template({ res });
     const div = event.target.closest('.add-button').nextElementSibling;
-    div.style.margin = '20px 0';
+    div.style.margin = '20px auto';
     if (div.innerHTML === form) {
       div.innerHTML = '';
     } else {

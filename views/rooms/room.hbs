@@ -1,4 +1,26 @@
 
+<div class="container mt-4">
+  <a class="btn btn-warning add-wishlist"> Добавить новый список</a>
+</div>
+
+<div class='container add-new-wishlist text-dark invisible'>
+  <div class="card mt-4" style="width: auto;">
+    <div class="card-body">
+      <h5 class="card-title">Добавление вишлиста</h5>
+      <hr>
+      <div class="form-group">
+        <form>
+          <label for="name">Название вишлиста</label>
+          <input type="text" class="form-control new-wishlist-input" id="name" required>
+          <small id="name" class="form-text text-muted">Введите название вишлиста (новый год, вечеринка, день
+            рожденья...)</small>
+      </div>
+      <button type="submit" class="btn btn-primary add-wishlist-button">Добавить</button>
+      </form>
+    </div>
+  </div>
+</div>
+
 {{!-- Основной блок с вишлистом --}}
 <div class='container wishlist'>
   <div class="card mt-4" style="width: auto;">
@@ -41,4 +63,3 @@
     </div>
   </div>
 </div>
-

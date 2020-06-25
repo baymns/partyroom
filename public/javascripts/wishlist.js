@@ -1,3 +1,24 @@
+// отображение меню добавления нового вишлиста
+const addWishList = document.querySelector('.add-wishlist');
+addWishList?.addEventListener('click', (event) => {
+  const add = document.querySelector('.add-new-wishlist');
+  add?.classList.toggle('invisible');
+});
+
+// отправка на ручку создание нового вишлиста
+const sendNewWishlist = document.querySelector('.add-wishlist-button');
+sendNewWishlist?.addEventListener('click', async (event) => {
+  event.preventDefault();
+  const wName = document.querySelector('.new-wishlist-input');
+  const response = await fetch('/rooms/wishlists', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: wName.value }),
+  });
+  const result = await response.json();
+  console.log(result);
+});
+
 const wishlist = document.querySelector('.wishlist');
 wishlist?.addEventListener('click', (event) => {
   if (event.target.classList.contains('add-product')) {

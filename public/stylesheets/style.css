@@ -216,11 +216,8 @@ transition: color 1s ease 1s, background 0.5s ease 1s, transform 1000ms cubic-be
   flex-direction: row;
   justify-content: center;
 }
-#rooms-list {
-  /* position: absolute;
-  left: 50%;
-  top: 50%; */
-  max-width: 200px;
+#rooms-container #rooms-list {
+  width: 290px;
 }
 /* MAIN BUTTON ADD */
 div.add-button {
