@@ -36,6 +36,12 @@ router.post('/create', async (req, res) => {
     res.redirect('/rooms');
   }
 })
+
+// ручка для показа содержимого комнаты (вишлисты комнаты)
+router.get('/show', (req, res) => {
+  res.render('rooms/room');
+})
+
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
