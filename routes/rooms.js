@@ -19,13 +19,11 @@ router.get('/', async (req, res) => {
   
   rooms.map(room => room.createdAt = `${new Date(room.createdAt).getHours()}:${new Date(room.createdAt).getMinutes()} 
   ${new Date(room.createdAt).getDate()}.${new Date(room.createdAt).getMonth()}.${new Date(room.createdAt).getFullYear()}`)
+  
   res.render('rooms/roomslist', { rooms });
 })
 
-router.get('/create', (req, res) => {
-  res.render('rooms/roomform');
-})
-router.post('/create', async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const { title } = req.body
     const room = new Room({

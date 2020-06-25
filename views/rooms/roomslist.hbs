@@ -3,6 +3,7 @@
     <div class="add-button">
       <a href="/rooms/create" id="add-btn-link"><button id="add-main-btn">+</button></a>
     </div>
+    <div id="compile-form"></div>
 
     {{#if rooms}}
     {{#each rooms}}
@@ -11,10 +12,8 @@
       <p>Время создания {{this.createdAt}}</p>
       <p>Количество участников: {{this.users.length}}</p>
       <a href="/rooms/{{this._id}}">Войти в комнату</a>
-      <a href="/rooms/{{this._id}}" id={{this._id}} class="delete-room" >Удалить комнату</a>
-
+      <a href="/rooms/{{this._id}}" id={{this._id}} class="delete-room">Удалить комнату</a>
     </div>
-
     {{/each}}
     {{else}}
     <h3>Здесь будет список созданных вами комнат</h3>
