@@ -10,7 +10,11 @@
     <div class="room">
       <h4>Тема: {{this.title}}</h4>
       <p>Время создания {{this.createdAt}}</p>
+
+      <a href="localhost:3000{{this.shortUrl}}">Shortlink: {{this.shortUrl}}</a>
+
       <p>Количество участников: {{this.users.length}}</p>
+
       <a href="/rooms/{{this._id}}">Войти в комнату</a>
       <a href="/rooms/{{this._id}}" id={{this._id}} class="delete-room">Удалить комнату</a>
     </div>
