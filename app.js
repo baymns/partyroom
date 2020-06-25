@@ -66,14 +66,14 @@ app.use((req,res,next) => {
   }
 })
 
-app.use((req, res, next) => {
-  if (req.session.link) {
-    res.locals.link = req.session.link;
-    return next();
-  } else {
-    res.redirect('/login')
-  }
-})
+// app.use((req, res, next) => {
+//   if (req.session.link) {
+//     res.locals.link = req.session.link;
+//     return next();
+//   } else {
+//     res.redirect('/login')
+//   }
+// })
 
 app.use('/rooms', roomsRouter);
 app.use('/logout', logoutRouter);
