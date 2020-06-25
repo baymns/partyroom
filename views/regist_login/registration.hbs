@@ -1,12 +1,29 @@
-<div class="content home">
+<div class="register content home">
   <h3>Зарегистрироваться</h3>
-  <form method="POST" class="registr" action="/registration">
+  {{!-- <form method="POST" class="registr" action="/registration">
     <label> Имя : </label>
     <input type="text" required name="userName" />
     <label> Email :</label>
     <input type="email" required name="email" />
     <label for="password"> Пароль:</label>
     <input type="password" required name="password" />
-    <button type="submit">Регистрация</button>
+    <button type="submit">Регистрация</button> --}}
+
+  <form method="POST" class="registr" action="/registration">
+    <div class="form-group">
+      <label for="userName">Имя</label>
+      <input type="text" class="form-control" name="userName" id="userName">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputEmail1">Email</label>
+      <input type="email" class="form-control" name="email" id="exampleInputEmail1">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Password</label>
+      <input type="password" class="form-control" name="password" id="exampleInputPassword1">
+    </div>
+    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+  </form>
+
 </div>
 </form>

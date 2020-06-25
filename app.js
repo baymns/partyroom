@@ -29,15 +29,15 @@ app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/registration', registrationRouter);
 
-app.use((req,res,next) => {
-  if(req.session.user) {
-    res.locals.login = req.session.user.login
-    res.locals.id = req.session.user._id
-    return next()
-  } else {
-    res.redirect('/login')
-  }
-})
+// app.use((req,res,next) => {
+//   if(req.session.user) {
+//     res.locals.login = req.session.user.login
+//     res.locals.id = req.session.user._id
+//     return next()
+//   } else {
+//     res.redirect('/login')
+//   }
+// })
 
 app.use('/rooms', roomsRouter);
 
