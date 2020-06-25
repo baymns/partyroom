@@ -39,11 +39,11 @@ router.post('/create', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const randomLink = shortUrlGenerator();
-    const shortUrl = '/rooms/' + randomLink;
+    // const randomLink = shortUrlGenerator();
+    // const shortUrl = '/rooms/' + randomLink;
 
-    await Room.findOneandUpdate({ id }, { $set: { shortUrl } });
-    await Room.save();
+    // await Room.findOneandUpdate({ id }, { $set: { shortUrl } });
+    // await Room.save();
     const room = await Room.findOne({ id });
     res.render('rooms/room', { room })
   } catch (error) {
