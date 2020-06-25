@@ -50,6 +50,7 @@ router.delete('/:id', async (req, res) => {
     res.status(400).end()
   }
 })
+
 // ручка для показа содержимого комнаты (вишлисты комнаты)
 router.get('/show', (req, res) => {
   res.render('rooms/room');
