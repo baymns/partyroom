@@ -1,7 +1,7 @@
 <div id="rooms-container">
   <div id="rooms-list">
     <div class="add-button">
-      <a href="/rooms/create" id="add-btn-link"><button id="add-main-btn">+</button></a>
+      <a href="/rooms" id="add-btn-link"><button id="add-main-btn">+</button></a>
     </div>
     <div id="compile-form"></div>
 
@@ -9,9 +9,9 @@
     {{#each rooms}}
     <div class="room">
       <h4>Тема: {{this.title}}</h4>
-      <p>Время создания {{this.createdAt}}</p>
+      <p>Время создания: {{this.createdAt}}</p>
 
-      <a href="localhost:3000{{this.shortUrl}}">Shortlink: {{this.shortUrl}}</a>
+      <p>Ссылка: <a href="localhost:3000/rooms/shortlink/{{this.shortUrl}}">http://party.room/{{this.shortUrl}}</a></p>
 
       <p>Количество участников: {{this.users.length}}</p>
 

@@ -18,13 +18,10 @@ const shortUrlMake = () => {
 
 router.get('/', async (req, res) => {
   const rooms = await Room.find();
-
-
   rooms.map(room => room.createdAt = `${new Date(room.createdAt).getHours()}:${new Date(room.createdAt).getMinutes()} 
   ${new Date(room.createdAt).getDate()}.${new Date(room.createdAt).getMonth()}.${new Date(room.createdAt).getFullYear()}`)
   res.render('rooms/roomslist', { rooms });
-});
-
+})
 
 router.post('/', async (req, res) => {
 
