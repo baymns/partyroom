@@ -1,1 +1,42 @@
-<h3>{{room.title}}</h3>
+{{!-- Основной блок с вишлистом --}}
+<div class='container wishlist'>
+  <div class="card mt-4" style="width: auto;">
+    <div class="card-body">
+      <h5 class="card-title text-dark">Название комнаты </h5>
+      <hr>
+      <a href="#" class="card-link">Категория 1</a>
+      <a href="#" class="card-link">Категория 2</a>
+      <ul class="list-group mt-2 text-dark">
+        <li class="list-group-item d-flex justify-content-between flex-row">Колбаса <a
+            class="text-white bg-info">100р</a></li>
+      </ul>
+      <button type="button" class="btn btn-success mt-2 add-product">Добавить в лист</button>
+    </div>
+  </div>
+</div>
+
+{{!-- Добавление новый позиций в список --}}
+<div class='container add-one-product invisible'>
+  <div class="card mt-4" style="width: auto;">
+    <div class="card-body">
+      <h5 class="card-title text-dark">Добавление продуктов</h5>
+      <div class="form-group">
+        <form>
+          <label for="name">Email address</label>
+          <input type="text" class="form-control" id="name">
+          <small id="name" class="form-text text-muted">Введите название продукта</small>
+      </div>
+      <div class="form-group">
+        <label for="price">Password</label>
+        <input type="number" class="form-control" id="price">
+        <small id="price" class="form-text text-muted">Введите ориентировочную цену</small>
+      </div>
+      <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+        <label class="form-check-label text-dark" for="exampleCheck1 ">Куплю сам</label>
+      </div>
+      <button type="submit" class="btn btn-primary ">Добавить в лист</button>
+      </form>
+    </div>
+  </div>
+</div>
