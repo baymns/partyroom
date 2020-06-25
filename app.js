@@ -5,11 +5,9 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose')
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
 const roomsRouter = require('./routes/rooms');
 const loginRouter = require('./routes/login');
 const registrationRouter = require('./routes/registration');
-
 const app = express();
 
 mongoose.connect('mongodb://localhost:27017/Partyroom', {
@@ -31,15 +29,15 @@ app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/registration', registrationRouter);
 
-app.use((req,res,next) => {
-  if(req.session.user) {
-    res.locals.login = req.session.user.login
-    res.locals.id = req.session.user._id
-    return next()
-  } else {
-    res.redirect('/login')
-  }
-})
+// app.use((req,res,next) => {
+//   if(req.session.user) {
+//     res.locals.login = req.session.user.login
+//     res.locals.id = req.session.user._id
+//     return next()
+//   } else {
+//     res.redirect('/login')
+//   }
+// })
 
 app.use('/rooms', roomsRouter);
 

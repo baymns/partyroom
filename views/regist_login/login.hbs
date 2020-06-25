@@ -1,8 +1,14 @@
-<h1>ВХОД</h1>
-<form method="POST" action="/login">
-  <label> Логин: <input type="text" required name="login" />
-  </label>
-  <label> Пароль: <input type="password" required name="password" />
-  </label>
-  <button type="submit">Отправка</button>
-</form>
+<div class="login content home">
+  <h3>Войти</h3>
+  <form method="POST" class="registr" action="/registration">
+    <div class="form-group">
+      <label for="exampleInputEmail1">Email</label>
+      <input type="email" class="form-control" name="email" id="exampleInputEmail1">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Password</label>
+      <input type="password" class="form-control" name="password" id="exampleInputPassword1">
+    </div>
+    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+  </form>
+</div>

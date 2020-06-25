@@ -6,10 +6,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
     integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="/javascripts/nav.js"></script>
   <title>Rooms</title>
 </head>
 
 <body>
+
+  {{!-- Button --}}
+  <div class="button">
+    <span class="line"></span>
+    <span class="line"></span>
+    <span class="line"></span>
+  </div>
+  {{!-- Menu --}}
+  <div class='menu'>
+    <nav>
+      <ul>
+        {{#if login}}
+        <li>
+          <a href='/' data-class='home_is_visible '>{{login}}</a>
+        </li>
+        <li>
+          <a href='/rooms' data-class='aboutus_is_visible'>Комнаты</a>
+        </li>
+        <li>
+          <a href='/logout' data-class='clients_is_visible'>Выйти</a>
+        </li>
+        {{else}}
+        <li>
+          <a href='/' data-class='home_is_visible '>Главная</a>
+        </li>
+        <li>
+          <a href='/registration' data-class='aboutus_is_visible'>Зарегистрироваться</a>
+        </li>
+        <li>
+          <a href='/login' data-class='clients_is_visible'>Войти</a>
+        </li>
+        {{/if}}
+      </ul>
+    </nav>
+  </div>  
+
   {{{body}}}
 </body>
 
