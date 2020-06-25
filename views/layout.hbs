@@ -8,6 +8,8 @@
     integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
   <link rel="stylesheet" href="/stylesheets/style.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>
+  <script defer src="/javascripts/application.js"></script>
   <script defer src="/javascripts/nav.js"></script>
   <script defer src="/javascripts/wishlist.js"> </script>
   <title>Rooms</title>
@@ -25,9 +27,14 @@
   <div class='menu'>
     <nav>
       <ul>
+        {{!-- <li>
+          <span>
+            <h3>Rooms</h3>
+          </span>
+        </li> --}}
         {{#if name}}
         <li>
-          <a href='/' data-class='home_is_visible '>{{name}}</a>
+          <a href='#' data-class='home_is_visible '>Пользователь: {{name}}</a>
         </li>
         <li>
           <a href='/rooms' data-class='aboutus_is_visible'>Комнаты</a>

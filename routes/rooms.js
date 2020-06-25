@@ -18,20 +18,32 @@ const shortUrlMake = () => {
 router.get('/', async (req, res) => {
   const rooms = await Room.find();
 
+
   rooms.map(room => room.createdAt = `${new Date(room.createdAt).getHours()}:${new Date(room.createdAt).getMinutes()} 
   ${new Date(room.createdAt).getDate()}.${new Date(room.createdAt).getMonth()}.${new Date(room.createdAt).getFullYear()}`)
   res.render('rooms/roomslist', { rooms });
 })
 
-router.get('/create', (req, res) => {
+router.get('/', (req, res) => {
   res.render('rooms/roomform');
 });
 
-router.post('/create', async (req, res) => {
+router.post('/', async (req, res) => {
+
+  
+  rooms.map(room => room.createdAt = `${new Date(room.createdAt).getHours()}:${new Date(room.createdAt).getMinutes()} 
+  ${new Date(room.createdAt).getDate()}.${new Date(room.createdAt).getMonth()}.${new Date(room.createdAt).getFullYear()}`)
+  
+  res.render('rooms/roomslist', { rooms });
+})
+
+router.post('/', async (req, res) => {
+
   try {
     const { title } = req.body;
     const room = new Room({
-      title,
+      title, author: req.session.user._id
+
     });
     await room.save();
     res.redirect(`/rooms/createlink/${room._id}`);
@@ -59,6 +71,18 @@ router.delete('/:id', async (req, res) => {
     const { id } = req.params
     console.log(id);
 
+    await Room.findByIdAndDelete({ _id: id })
+    res.status(200).end()
+  } catch (error) {
+    res.status(400).end()
+  }
+})
+// Ручка для удаления комнаты из общего списка (/rooms)
+router.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params
+    console.log(id);
+    
     await Room.findByIdAndDelete({ _id: id })
     res.status(200).end()
   } catch (error) {

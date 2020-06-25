@@ -5,15 +5,15 @@ const router = express.Router();
 const User = require('../models/user')
 
 router.get('/', (req, res) => {
+  if (req.session.user) {
+    res.redirect('/rooms')
+  }
   res.render('regist_login/registration')
 })
-
-// router.post('/')
 
 
 router.post('/', async (req, res) => {
   try {
-    console.log('!!!!!!!!!!!!!!', req.body)
     const { userName, email, password } = req.body;
     const user = await new User({
       name: userName,
