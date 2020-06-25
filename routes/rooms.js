@@ -1,5 +1,6 @@
 const router = require('express').Router()
-const Room = require('../models/room.js')
+const Room = require('../models/room.js');
+const Wishlist = require('../models/wishlist');
 
 const shortUrlMake = () => {
   const arr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
@@ -75,6 +76,23 @@ router.get('/:id', async (req, res) => {
 
 })
 
+// ручка показа формы всех вишлистов и добавления
+router.get('/:id/wishlist', async (req, res) => {
+  res.render('rooms/room');
+})
+
+// ручка создания нового вишлиста
+router.post('/wishlists', async (req, res) => {
+  const wishListName = req.body;
+  res.json( { "result": "ok" } );
+})
+
+// ручка показа конкретного вишлиста комнаты
+router.get('/:id/wishlist/:wid', async (req, res) => {
+  const { wid } = req.params;
+  const result = await Wishlist.findOne({ id: wid });
+  res.render('rooms/wishlist');
+});
 
 // Нужно уточнить куда ведет ручка!!!
 router.get('/shortlink/:id', async (req, res) => {
