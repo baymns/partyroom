@@ -5,15 +5,16 @@ const router = express.Router();
 const User = require('../models/user');
 
 router.get('/', (req, res) => {
+  if (req.session.user) {
+    res.redirect('/rooms')
+  }
   res.render('regist_login/login');
 });
 
 router.post('/', async (req, res) => {
   try {
-    console.log('!!!!!!!!!', req.body)
     const { email, password } = req.body;
     const user = await User.findOne({ email, password })
-    console.log('>>>>>>>>>>>>>>>', user)
     if (user) {
       delete user.password
       req.session.user = user;
@@ -22,9 +23,8 @@ router.post('/', async (req, res) => {
     res.redirect('/registration')
   }
   catch (error) {
-    console.log(error)
     res.redirect('/login',)
-    
+
   }
 })
 
@@ -32,28 +32,28 @@ router.post('/', async (req, res) => {
 // const { email, password } = req.body;
 // const user = await User.find({ email })
 // if (user.email === login && user.password === password) {
-  //   delete user.password
+//   delete user.password
 //   req.session.user = user;
 //   return res.redirect('/rooms')
 // }
 // res.redirect('/')
 
 // router.post('/', async (req, res) => {
-  //   const { email, password } = req.body;
-  //   console.log(email);
-  //   const user = await User.findOne({ email })
-  //   if (user.email === email && user.password === password) {
-    //     delete user.password
-    //     req.session.user = user;
-    
-    //     return res.redirect('/entries')
-    //   }
-    //   res.redirect('/login')
-    // })
-    
-    
-    
-    // else {
-    //   throw new Error()
-    // }
+//   const { email, password } = req.body;
+//   console.log(email);
+//   const user = await User.findOne({ email })
+//   if (user.email === email && user.password === password) {
+//     delete user.password
+//     req.session.user = user;
+
+//     return res.redirect('/entries')
+//   }
+//   res.redirect('/login')
+// })
+
+
+
+// else {
+//   throw new Error()
+// }
 module.exports = router;
