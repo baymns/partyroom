@@ -10,14 +10,28 @@ router.get('/', (req, res) => {
 
 // router.post('/')
 
-module.exports = router
 
-// router.post('/create', async (req, res) => {
-//   const { userName, email, password } = req.body;
-//   const user = await new User({
-//     name: userName,
-//     email, password
-//   })
-//   await user.save()
-//   res.redirect('/login')
-// })
+router.post('/', async (req, res) => {
+  try {
+    console.log('!!!!!!!!!!!!!!', req.body)
+    const { userName, email, password } = req.body;
+    const user = await new User({
+      name: userName,
+      email, password
+    })
+    await user.save()
+    if (user) {
+      delete user.password
+      req.session.user = user;
+      return res.redirect('/rooms')
+    }
+    else {
+      throw new Error()
+    }
+  }
+  catch (error) {
+    res.redirect('/registration')
+  }
+})
+
+module.exports = router
