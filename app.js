@@ -20,6 +20,9 @@ const app = express();
 mongoose.connect('mongodb://localhost:27017/Partyroom', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: true,
+
 });
 
 // view engine setup
@@ -50,11 +53,20 @@ app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/registration', registrationRouter);
 
-app.use((req,res,next) => {
-  if(req.session.user) {
+app.use((req, res, next) => {
+  if (req.session.user) {
     res.locals.name = req.session.user.name
     res.locals.id = req.session.user._id
-    return next()
+    return next();
+  } else {
+    res.redirect('/login')
+  }
+})
+
+app.use((req, res, next) => {
+  if (req.session.link) {
+    res.locals.link = req.session.link;
+    return next();
   } else {
     res.redirect('/login')
   }
@@ -64,12 +76,12 @@ app.use('/rooms', roomsRouter);
 app.use('/logout', logoutRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
