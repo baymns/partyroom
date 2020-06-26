@@ -104,19 +104,6 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
-  try {
-    if (req.session.user) {
-      res.render('rooms/room');
-    } else {
-      res.redirect('login')
-    }
-  } catch (error) {
-    console.log(error);
-    res.redirect('/rooms');
-  }
-
-})
 
 router.get('/createlink/:id', async (req, res) => {
   const { id } = req.params;
@@ -148,6 +135,7 @@ router.delete('/:id', async (req, res) => {
 router.get('/:id', async (req, res) => {
   const roomId = req.params.id;
   const wishlists = await Wishlist.find({roomid: roomId});
+  console.log(wishlists, ">>>>>>>>>>>>>>>>>>>>>>>>")
   try {
     res.render('rooms/room', { wishlists: wishlists, roomid: roomId });
   } catch (error) {
@@ -163,7 +151,14 @@ router.get('/:id/wishlist', async (req, res) => {
 // ручка создания нового вишлиста
 router.post('/:id/wishlist', async (req, res) => {
   const wishListName = req.body;
-  res.json({ result: 'ok' });
+  res.json( { "result": "ok" } );
+  const roomId = req.params.id
+  const wishl = new Wishlist({
+    category: wishListName.name,
+    roomid: roomId,
+  })
+  await wishl.save();
+  res.json({ "wishlistId": "wishl._id" });
 });
 
 // ручка показа конкретного вишлиста комнаты
