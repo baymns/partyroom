@@ -167,6 +167,15 @@ router.post('/:id/wishlist', async (req, res) => {
   res.json({ wishlistId: 'wishl._id' });
 });
 
+// Удаление определённого wishlist
+
+router.delete('/:id/wishlist/:wid', async (req, res) => {
+  console.log(req.params )
+console.log('wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww')
+    await Wishlist.findOneAndDelete({ _id: req.params.wid });
+    return res.end();
+  });
+
 // ручка показа конкретного вишлиста комнаты
 router.get('/:id/wishlist/:wid', async (req, res) => {
   const { wid } = req.params;

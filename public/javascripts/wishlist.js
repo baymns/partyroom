@@ -5,6 +5,22 @@ addWishList?.addEventListener('click', (event) => {
   add?.classList.toggle('invisible');
 });
 
+document.querySelector('#wishlist-main-container')?.addEventListener('click', async (event) => { 
+  event.preventDefault();
+  const wishId = event.target.id;
+  const url = window.location.href.toString().split(window.location.host)[1];
+  const roomId = url.split('/')[2];
+  const response = await fetch(`/rooms/${roomId}/wishlist/${wishId}`, {
+    method: "DELETE"
+  })
+  if (response.status === 200) {
+    const card = event.target.closest('.card');
+    card.remove();
+  } else {}
+
+
+
+})
 // отправка на ручку Cоздание нового вишлиста (Категории)
 const sendNewWishlist = document.querySelector('.add-wishlist-button');
 sendNewWishlist?.addEventListener('click', async (event) => {
