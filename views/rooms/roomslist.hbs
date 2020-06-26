@@ -11,7 +11,7 @@
       <h4>Тема: {{this.title}}</h4>
       <p>Время создания: {{this.createdAt}}</p>
 
-      <p>Ссылка: <a href="localhost:3000/rooms/shortlink/{{this.shortUrl}}">http://party.room/{{this.shortUrl}}</a></p>
+      <p>Ссылка: <a href="/sh/{{this.shortUrl}}">{{../hostName}}/sh/{{this.shortUrl}}</a></p>
 
       <p>Количество участников: {{this.users.length}}</p>
 

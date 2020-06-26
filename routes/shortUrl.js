@@ -1,4 +1,4 @@
-const router = require(".");
+const router = require("express").Router();
 const Room = require('../models/room');
 
 router.post('/:id', async (req, res, next) => {
@@ -23,9 +23,11 @@ const shortUrlGenerator = () => {
   }
 }
 
-router.get('/:shorturl', async (req, res, next) => {
-  const room = await Room.findOne({ shortUrl: req.params.shortUrl });
-  res.redirect('/rooms/' + room._id);
+router.get('/:url', async (req, res) => {
+  const shortUrl = req.params.url;
+  const room = await Room.findOne({ shortUrl });
+  req.session.url = `/rooms/${room.id}`;
+  res.redirect(req.session.url);
 });
 
-
+module.exports = router

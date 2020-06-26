@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
   const rooms = await Room.find();
   rooms.map(room => room.createdAt = `${new Date(room.createdAt).getHours()}:${new Date(room.createdAt).getMinutes()} 
   ${new Date(room.createdAt).getDate()}.${new Date(room.createdAt).getMonth()}.${new Date(room.createdAt).getFullYear()}`)
-  res.render('rooms/roomslist', { rooms });
+  res.render('rooms/roomslist', { hostName: req.protocol + '://' + req.get('host') , rooms });
 })
 
 router.post('/', async (req, res) => {
@@ -40,13 +40,25 @@ router.post('/', async (req, res) => {
   }
 });
 
+router.get('/:id', async (req, res) => {
+  try {
+    if (req.session.user) {
+      res.render('rooms/room');
+    } else {
+      res.redirect('login')
+    }
+  } catch (error) {
+    console.log(error);
+    res.redirect('/rooms');
+  }
+
+})
+
 router.get('/createlink/:id', async (req, res) => {
   const { id } = req.params;
 
   const shortUrl = shortUrlMake();
   // const shortUrl = '/rooms/shortlink/' + randomLink;
-
-
   const room = await Room.findOneAndUpdate({ _id: id }, { $set: { shortUrl } }, { new: true });
   res.redirect(`/rooms/${room.id}`);
 });
@@ -55,8 +67,6 @@ router.get('/createlink/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params
-    console.log(id);
-
     await Room.findByIdAndDelete({ _id: id })
     res.status(200).end()
   } catch (error) {
@@ -64,14 +74,6 @@ router.delete('/:id', async (req, res) => {
   }
 })
 
-router.get('/:id', async (req, res) => {
-  try {
-    res.render('rooms/room');
-  } catch (error) {
-    res.redirect('/rooms');
-  }
-
-})
 
 // ручка показа формы всех вишлистов и добавления
 router.get('/:id/wishlist', async (req, res) => {
@@ -81,7 +83,7 @@ router.get('/:id/wishlist', async (req, res) => {
 // ручка создания нового вишлиста
 router.post('/wishlists', async (req, res) => {
   const wishListName = req.body;
-  res.json( { "result": "ok" } );
+  res.json({ "result": "ok" });
 })
 
 // ручка показа конкретного вишлиста комнаты
@@ -94,11 +96,12 @@ router.get('/:id/wishlist/:wid', async (req, res) => {
 // Нужно уточнить куда ведет ручка!!!
 router.get('/shortlink/:id', async (req, res) => {
   const shortUrl = req.params.id;
-  // console.log(shortLink);
   // const shortUrl = '/rooms/shortlink/' + shortLink;
   const room = await Room.findOne({ shortUrl });
-  // console.log(room._id);
-  res.redirect('/rooms/' + room.id);
+  req.session.url = `/rooms/${room._id}`;
+  console.log('>>>>>>>>>>>>>>',req.session.url,'<<<<<<<<<<<<<<<<<');
+  
+  res.redirect('/rooms/' + room._id);
 });
 
 module.exports = router;
