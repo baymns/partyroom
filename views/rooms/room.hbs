@@ -16,18 +16,21 @@
             рожденья...)</small>
       </div>
       <button type="submit" class="btn btn-primary add-wishlist-button">Добавить</button>
+      <button type="submit" class="btn btn-primary add-wishlist-button"></button>
       </form>
     </div>
   </div>
 </div>
-
+<div id="wishlist-main-container">
 {{#each wishlists}}
 <div class="container text-dark mt-4"> 
 <div class="card">
   <h5 class="card-header">{{this.category}}</h5>
   <div class="card-body">
     <h5 class="card-title"><a href="{{this.roomid}}/wishlist/{{this.id}}">Перейти к вишлисту</a></h5>
+   <button id={{this.id}} type="submit" class="btn btn-danger delete-weshlist">Удалить</button>
   </div>
 </div>
 </div>
 {{/each}}
+</div>
