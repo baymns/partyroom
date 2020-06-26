@@ -170,11 +170,9 @@ router.post('/:id/wishlist', async (req, res) => {
 // Удаление определённого wishlist
 
 router.delete('/:id/wishlist/:wid', async (req, res) => {
-  console.log(req.params )
-console.log('wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww')
-    await Wishlist.findOneAndDelete({ _id: req.params.wid });
-    return res.end();
-  });
+  await Wishlist.findOneAndDelete({ _id: req.params.wid });
+  return res.end();
+});
 
 // ручка показа конкретного вишлиста комнаты
 router.get('/:id/wishlist/:wid', async (req, res) => {
@@ -196,19 +194,19 @@ router.patch('/:id/wishlist/:wid', async (req, res) => {
       { $pull: { products: { uid: listId } } }
     );
   } else {
-    // const result = await Wishlist.update(
-    //   { _id: wishlistId },
-    //   {
-    //     $set: {
-    //       products: {
-    //         uid: listId,
-    //         isbuy: req.body.isbuy,
-    //         title: req.body.title,
-    //         cost: req.body.cost,
-    //       },
-    //     },
-    //   }
-    // );
+     const result = await Wishlist.update(
+      { _id: wishlistId },
+      {
+        $set: {
+          products: {
+            uid: listId,
+            isbuy: req.body.isbuy,
+            title: req.body.title,
+            cost: req.body.cost,
+          },
+        },
+      }
+    );
   }
   res.json({});
 });
@@ -238,8 +236,6 @@ router.get('/shortlink/:id', async (req, res) => {
   // const shortUrl = '/rooms/shortlink/' + shortLink;
   const room = await Room.findOne({ shortUrl });
   req.session.url = `/rooms/${room._id}`;
-  console.log('>>>>>>>>>>>>>>', req.session.url, '<<<<<<<<<<<<<<<<<');
-
   res.redirect('/rooms/' + room._id);
 });
 

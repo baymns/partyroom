@@ -12,8 +12,8 @@
       {{#each products}}
       <div class="container mb-1 border border-primary d-flex align-items-center text-dark bg-light" id="{{this.uid}}">
         <div class="flex-grow-1 bd-highlight">{{this.title}}</div>
-        <span class="p-2 mx-2 bd-highlight {{#if this.isbuy}} bg-success{{/if}}">{{this.cost}}р.</span>
-        <input class="checkbox" type="checkbox" aria-label="Checkbox for following text input" {{#if this.isbuy}}
+        <span id="{{this.uid}}" class="p-2 mx-2 bd-highlight {{#if this.isbuy}} bg-success{{/if}}">{{this.cost}}р.</span>
+        <input id="{{this.uid}}" class="checkbox" type="checkbox" aria-label="Checkbox for following text input" {{#if this.isbuy}}
           checked {{/if}}>
         <a class="ml-4 text-danger delete-item" href="">&times;</a>
       </div>
