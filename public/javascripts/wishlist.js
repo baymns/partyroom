@@ -9,14 +9,16 @@ addWishList?.addEventListener('click', (event) => {
 const sendNewWishlist = document.querySelector('.add-wishlist-button');
 sendNewWishlist?.addEventListener('click', async (event) => {
   event.preventDefault();
+  const url = window.location.href.toString().split(window.location.host)[1];
+  const roomId = url.split('/')[2];
   const wName = document.querySelector('.new-wishlist-input');
-  const response = await fetch('/rooms/wishlists', {
+  const response = await fetch(`/rooms/${roomId}/wishlist`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ name: wName.value }),
   });
   const result = await response.json();
-  console.log(result);
+  window.location.reload();
 });
 
 // отображение формы добавления нового элемента списка

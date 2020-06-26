@@ -77,7 +77,7 @@ const shortUrlMake = () => {
 
   return shortUrl;
 };
-
+// отображение списка комнат
 router.get('/', async (req, res) => {
   const rooms = await Room.find();
   rooms.map(
@@ -92,6 +92,7 @@ router.get('/', async (req, res) => {
   res.render('rooms/roomslist', { rooms });
 });
 
+// добавление комнаты
 router.post('/', async (req, res) => {
   try {
     const { title } = req.body;
@@ -135,9 +136,12 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+// отображение списка вишлистов конкретной комнаты
 router.get('/:id', async (req, res) => {
+  const roomId = req.params.id;
+  const wishlists = await Wishlist.find({roomid: roomId});
   try {
-    res.render('rooms/room');
+    res.render('rooms/room', { wishlists: wishlists, roomid: roomId });
   } catch (error) {
     res.redirect('/rooms');
   }
@@ -158,7 +162,6 @@ router.post('/:id/wishlist', async (req, res) => {
 router.get('/:id/wishlist/:wid', async (req, res) => {
   const { wid } = req.params;
   const result = await Wishlist.findOne({ id: wid });
-  res.render('rooms/wishlist');
 });
 
 // внесение изменений в список вишлиста

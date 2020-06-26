@@ -6,7 +6,7 @@ const User = require('../models/user');
 
 router.get('/', (req, res) => {
   if (req.session.user) {
-    res.redirect('/rooms')
+    res.redirect('/rooms');
   }
   res.render('regist_login/login');
 });
