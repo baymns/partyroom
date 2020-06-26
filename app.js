@@ -7,16 +7,13 @@ const mongoose = require('mongoose')
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
 
-
-
 const indexRouter = require('./routes/index');
-const roomsRouter = require('./routes/rooms');
 const loginRouter = require('./routes/login');
 const registrationRouter = require('./routes/registration');
+const roomsRouter = require('./routes/rooms');
+const urlRouter = require('./routes/shortUrl')
 const logoutRouter = require('./routes/logout');
 const wishlistRouter = require('./routes/wishList')
-
-
 
 const app = express();
 
@@ -38,8 +35,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-
 app.use(
   session({
     store: new FileStore(),
@@ -55,6 +50,8 @@ app.use(
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/registration', registrationRouter);
+app.use('/sh', urlRouter)
+
 
 app.use((req,res,next) => {
   if(req.session.user) {
@@ -65,15 +62,6 @@ app.use((req,res,next) => {
     res.redirect('/login')
   }
 })
-
-// app.use((req, res, next) => {
-//   if (req.session.link) {
-//     res.locals.link = req.session.link;
-//     return next();
-//   } else {
-//     res.redirect('/login')
-//   }
-// })
 
 app.use('/rooms', roomsRouter);
 app.use('/logout', logoutRouter);
