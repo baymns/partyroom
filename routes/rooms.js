@@ -81,11 +81,20 @@ const shortUrlMake = () => {
 router.get('/', async (req, res) => {
   const rooms = await Room.find();
 
-  rooms.map(room => room.createdAt = `${new Date(room.createdAt).getHours()}:${new Date(room.createdAt).getMinutes()} 
-  ${new Date(room.createdAt).getDate()}.${new Date(room.createdAt).getMonth()}.${new Date(room.createdAt).getFullYear()}`)
-  res.render('rooms/roomslist', { hostName: req.protocol + '://' + req.get('host') , rooms });
-})
-
+  rooms.map(
+    (room) =>
+      (room.createdAt = `${new Date(room.createdAt).getHours()}:${new Date(
+        room.createdAt
+      ).getMinutes()} 
+  ${new Date(room.createdAt).getDate()}.${new Date(
+        room.createdAt
+      ).getMonth()}.${new Date(room.createdAt).getFullYear()}`)
+  );
+  res.render('rooms/roomslist', {
+    hostName: req.protocol + '://' + req.get('host'),
+    rooms,
+  });
+});
 
 // добавление комнаты
 router.post('/', async (req, res) => {
@@ -104,12 +113,11 @@ router.post('/', async (req, res) => {
   }
 });
 
-
 router.get('/createlink/:id', async (req, res) => {
   const { id } = req.params;
 
   const shortUrl = shortUrlMake();
-  
+
   const room = await Room.findOneAndUpdate(
     { _id: id },
     { $set: { shortUrl } },
@@ -122,10 +130,9 @@ router.get('/createlink/:id', async (req, res) => {
 // Ручка для удаления комнаты из общего списка (/rooms)
 router.delete('/:id', async (req, res) => {
   try {
-    const { id } = req.params
-    await Room.findByIdAndDelete({ _id: id })
-    res.status(200).end()
-
+    const { id } = req.params;
+    await Room.findByIdAndDelete({ _id: id });
+    res.status(200).end();
   } catch (error) {
     res.status(400).end();
   }
@@ -134,7 +141,7 @@ router.delete('/:id', async (req, res) => {
 // отображение списка вишлистов конкретной комнаты
 router.get('/:id', async (req, res) => {
   const roomId = req.params.id;
-  const wishlists = await Wishlist.find({roomid: roomId});
+  const wishlists = await Wishlist.find({ roomid: roomId });
   try {
     res.render('rooms/room', { wishlists: wishlists, roomid: roomId });
   } catch (error) {
@@ -150,14 +157,14 @@ router.get('/:id/wishlist', async (req, res) => {
 // ручка создания нового вишлиста
 router.post('/:id/wishlist', async (req, res) => {
   const wishListName = req.body;
-  res.json( { "result": "ok" } );
-  const roomId = req.params.id
+  res.json({ result: 'ok' });
+  const roomId = req.params.id;
   const wishl = new Wishlist({
     category: wishListName.name,
     roomid: roomId,
-  })
+  });
   await wishl.save();
-  res.json({ "wishlistId": "wishl._id" });
+  res.json({ wishlistId: 'wishl._id' });
 });
 
 // Удаление определённого wishlist
@@ -172,19 +179,38 @@ console.log('wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww')
 // ручка показа конкретного вишлиста комнаты
 router.get('/:id/wishlist/:wid', async (req, res) => {
   const { wid } = req.params;
-  const result = await Wishlist.findOne({ id: wid });
+  const wishlist = await Wishlist.findOne({ _id: wid });
+  res.render('rooms/wishlist', {
+    wishlistTitle: wishlist.category,
+    products: wishlist.products,
+  });
 });
 
 // внесение изменений в список вишлиста
 router.patch('/:id/wishlist/:wid', async (req, res) => {
-  const roomId = req.params.id;
   const wishlistId = req.params.wid;
-  const listId = req.body.listId;
-  // TODO: найти по wishlistId документ в коллекции findOne
-  // найти в документе id в списке
-  // обновить запись findOneAndUpdate
-  console.log(roomId, wishlistId);
-  res.json({ result: 'ok' });
+  const listId = req.body.wishlistItem;
+  if (req.body.isbuy === undefined) {
+    const result = await Wishlist.update(
+      { _id: wishlistId },
+      { $pull: { products: { uid: listId } } }
+    );
+  } else {
+    // const result = await Wishlist.update(
+    //   { _id: wishlistId },
+    //   {
+    //     $set: {
+    //       products: {
+    //         uid: listId,
+    //         isbuy: req.body.isbuy,
+    //         title: req.body.title,
+    //         cost: req.body.cost,
+    //       },
+    //     },
+    //   }
+    // );
+  }
+  res.json({});
 });
 
 // добавление нового элемента в список вишлиста
@@ -197,11 +223,13 @@ router.put('/:id/wishlist/:wid', async (req, res) => {
     title: itemname,
     cost: itemprice,
     isbuy: itemisbuy,
-    uid: uuidv4()
+    uid: uuidv4(),
   };
-  const wl = await Wishlist.findByIdAndUpdate({ id: wishlistId }, {
-    $push: { obj }})
-  //Wishlist.findOneAndUpdate({id: wishlistId}, {})
+  const wl = await Wishlist.update(
+    { _id: wishlistId },
+    { $push: { products: obj } }
+  );
+  res.json({ wl });
 });
 
 // Нужно уточнить куда ведет ручка!!!
@@ -210,8 +238,8 @@ router.get('/shortlink/:id', async (req, res) => {
   // const shortUrl = '/rooms/shortlink/' + shortLink;
   const room = await Room.findOne({ shortUrl });
   req.session.url = `/rooms/${room._id}`;
-  console.log('>>>>>>>>>>>>>>',req.session.url,'<<<<<<<<<<<<<<<<<');
-  
+  console.log('>>>>>>>>>>>>>>', req.session.url, '<<<<<<<<<<<<<<<<<');
+
   res.redirect('/rooms/' + room._id);
 });
 

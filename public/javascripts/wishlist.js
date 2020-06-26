@@ -47,21 +47,40 @@ wishlist?.addEventListener('click', async (event) => {
   // подкрашиваем зеленым если продукт куплен
   if (event.target.classList.contains('checkbox')) {
     event.target.parentElement.children[1].classList.toggle('bg-success');
-    // TODO: добавить fetch для записи в БД
+    const url = window.location.href.toString().split(window.location.host)[1];
+    const roomId = url.split('/')[2];
+    const wishlistId = url.split('/')[4].replace('#', '');
+    const name = document.querySelector('.add-input-name').value;
+    const price = document.querySelector('.add-input-price').value;
+    const listId = event.target.parentElement.id;
+    const checkboxValue = event.target.checked;
+    console.log(checkboxValue);
+    const response = await fetch(`/rooms/${roomId}/wishlist/${wishlistId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        wishlistItem: listId,
+        isbuy: checkboxValue,
+        title: name,
+        cost: price,
+      }),
+    });
+    const result = await response.json();
   }
   // удаление элемента из списка
   if (event.target.classList.contains('delete-item')) {
     const url = window.location.href.toString().split(window.location.host)[1];
     const roomId = url.split('/')[2];
     const wishlistId = url.split('/')[4].replace('#', '');
+    const listId = event.target.parentElement.id;
     const response = await fetch(`/rooms/${roomId}/wishlist/${wishlistId}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ wishlistItem: ' какой то Id' }),
+      body: JSON.stringify({ wishlistItem: listId }),
     });
     const result = await response.json();
-    event.target.parentElement.remove();
     console.log(result);
+    event.target.parentElement.remove();
   }
 });
 
@@ -89,5 +108,6 @@ addForm?.addEventListener('click', async (event) => {
       }),
     });
     const result = await response.json();
+    window.location.reload();
   }
 });
