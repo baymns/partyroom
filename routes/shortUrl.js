@@ -26,8 +26,12 @@ const shortUrlGenerator = () => {
 router.get('/:url', async (req, res) => {
   const shortUrl = req.params.url;
   const room = await Room.findOne({ shortUrl });
-  req.session.url = `/rooms/${room.id}`;
-  res.redirect(req.session.url);
+  if (room) {
+    req.session.url = `/rooms/${room.id}`;
+    res.redirect(req.session.url);
+  } else {
+    res.redirect('/login')
+  }
 });
 
 module.exports = router
