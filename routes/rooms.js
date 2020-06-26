@@ -15,7 +15,7 @@ const shortUrlMake = () => {
 
   return shortUrl;
 };
-
+// отображение списка комнат
 router.get('/', async (req, res) => {
   const rooms = await Room.find();
   rooms.map(room => room.createdAt = `${new Date(room.createdAt).getHours()}:${new Date(room.createdAt).getMinutes()} 
@@ -23,8 +23,8 @@ router.get('/', async (req, res) => {
   res.render('rooms/roomslist', { rooms });
 })
 
+// добавление комнаты
 router.post('/', async (req, res) => {
-
   try {
     const { title } = req.body;
     const room = new Room({
@@ -64,9 +64,12 @@ router.delete('/:id', async (req, res) => {
   }
 })
 
+// отображение списка вишлистов конкретной комнаты
 router.get('/:id', async (req, res) => {
+  const roomId = req.params.id;
+  const wishlists = await Wishlist.find({roomid: roomId});
   try {
-    res.render('rooms/room');
+    res.render('rooms/room', { wishlists: wishlists, roomid: roomId });
   } catch (error) {
     res.redirect('/rooms');
   }
@@ -75,20 +78,27 @@ router.get('/:id', async (req, res) => {
 
 // ручка показа формы всех вишлистов и добавления
 router.get('/:id/wishlist', async (req, res) => {
-  res.render('rooms/room');
+  res.render('rooms/room', {
+  })
 })
 
 // ручка создания нового вишлиста
-router.post('/wishlists', async (req, res) => {
+router.post('/:id/wishlist', async (req, res) => {
   const wishListName = req.body;
-  res.json( { "result": "ok" } );
+  const roomId = req.params.id
+  const wishl = new Wishlist({
+    category: wishListName.name,
+    roomid: roomId,
+  })
+  await wishl.save();
+  res.json({ "wishlistId": "wishl._id" });
 })
 
 // ручка показа конкретного вишлиста комнаты
 router.get('/:id/wishlist/:wid', async (req, res) => {
   const { wid } = req.params;
   const result = await Wishlist.findOne({ id: wid });
-  res.render('rooms/wishlist');
+
 });
 
 // Нужно уточнить куда ведет ручка!!!

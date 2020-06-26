@@ -7,10 +7,11 @@ const router = express.Router();
 
 router.get('/:id', async (req, res) => {
   const { wishListId } = req.params;
-  const wishlist = await WishListModel.findOne({ wishListId })
-  res.render('rooms/room')
+  const wishlist = await WishListModel.findOne({id: wishListId })
+  res.render('rooms/show', {
+    products: wishlist.products,
+  })
 })
-
 
 
 router.post('/:id', async (req, res) => {
